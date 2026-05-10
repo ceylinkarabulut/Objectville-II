@@ -26,4 +26,10 @@ public abstract class ServiceBuilding extends AbstractCell {
 
     /* Service buildings are connectable (utility BFS may pass through). */
     @Override public boolean isConnectable() { return true; }
+
+    @Override
+    public void resetTick() {}
+
+    @Override
+    public String getLabel() { return getServiceType().getName(); }
 }
