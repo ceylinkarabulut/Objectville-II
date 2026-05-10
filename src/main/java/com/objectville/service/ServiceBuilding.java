@@ -2,7 +2,6 @@ package com.objectville.service;
 
 import com.objectville.cell.AbstractCell;
 import com.objectville.cell.CellType;
-import com.objectville.config.SimulationConfig;
 import com.objectville.grid.Position;
 
 /*
@@ -16,10 +15,10 @@ public abstract class ServiceBuilding extends AbstractCell {
     private final ServiceType serviceType;
     private final int radius;
 
-    protected ServiceBuilding(Position position, CellType cellType, ServiceType serviceType) {
+    protected ServiceBuilding(Position position, int radius, CellType cellType, ServiceType serviceType) {
         super(position, cellType);
         this.serviceType = serviceType;
-        this.radius      = SimulationConfig.SERVICE_RADIUS_DEFAULT;
+        this.radius      = radius;
     }
 
     public ServiceType getServiceType() { return serviceType; }
