@@ -22,16 +22,40 @@ public class BFSUtilityDistributor {
         queue.add(provider.getPosition());
         visited.add(provider.getPosition());
 
+        /*
+         * Neighbor above : row-1, col
+         * Neighbor below : row+1, col
+         * Neighbor left : row, col-1
+         * Neighbor right : row, col+1
+         */
+
+        int[] rowDirections = {-1, 1, 0, 0};
+        int[] colDirections = {0, 0, -1, 1};
+
         while (!queue.isEmpty() && remainingCapacity > 0) {
-            Position current = queue.poll();
+            Position current = queue.poll();        //Current position
             AbstractCell currentCell = grid.getCell(current.getRow(), current.getCol());
 
             if (currentCell instanceof Zone) {
-                Zone zone = (Zone) currentCell;
+                Zone zone = (Zone) currentCell; //If zone, zone
                 int requiredAmount = Math.min(remainingCapacity, zone.getDemand());
 
                 zone.receiveUtility(provider.getUtilityType(), requiredAmount);
                 remainingCapacity -= requiredAmount;
+            }
+
+            for (int i = 0; i < 4; i++) {                                 //      Up
+                int neighborRow = current.getRow() + rowDirections[i]; // Left      Right
+                int neighborCol = current.getCol() + colDirections[i]; //      Down
+
+                Position neighborPos = new Position(neighborRow, neighborCol);       // Position
+                if (grid.isInBounds(neighborRow, neighborCol) && !visited.contains(neighborPos)) {
+                    AbstractCell neighborCell = grid.getCell(neighborRow, neighborCol);  // Cell
+                    if (neighborCell.isConnectable()) {
+                        queue.add(neighborPos);
+                        visited.add(neighborPos);
+                    }
+                }
             }
         }
     }
