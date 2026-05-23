@@ -39,7 +39,6 @@ public abstract class Zone extends AbstractCell {
     public void resetTick() {
         servicesReceived.clear();
         utilitiesReceived.clear();
-
     }
 
     public abstract void updateLevel();
