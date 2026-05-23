@@ -20,15 +20,20 @@ public abstract class Zone extends AbstractCell {
     }
 
     public int getDemand() {
-        return 0;
+        if (output < 1) {
+            return 1;
+        } else {
+            return output;
+        }
     }
 
     public void receiveUtility(UtilityType type, int amount) {
-
+        int currentAmount = utilitiesReceived.getOrDefault(type, 0);
+        utilitiesReceived.put(type, amount + currentAmount);
     }
 
     public void receiveService(ServiceType type) {
-
+        servicesReceived.put(type, true);
     }
 
     public void resetTick() {
