@@ -38,17 +38,16 @@ public class Industrial extends Zone {
             } else if (level == 2) {
                 if (!hasSecurity) {
                     level = 1;
-                }
-                else if (electricity > population && water > population) {
+                } else if (electricity > population && water > population) {
                     level = 3;
                 }
             } else if (level == 3) {
-                if ((electricity <= population || water <= population)||!hasSecurity) {
+                if ((electricity <= population || water <= population) || !hasSecurity) {
                     level = 2;
                 }
             }
         } else {
-            if (population == 0 && level > 0){
+            if (population == 0 && level > 0) {
                 level = level - 1;
             }
         }
@@ -76,6 +75,7 @@ public class Industrial extends Zone {
                 break;
         }
     }
+
     @Override
     public String getLabel() {
         return "I";

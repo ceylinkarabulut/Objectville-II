@@ -22,7 +22,6 @@ public class Commercial extends Zone {
 
         boolean hasSecurity = servicesReceived.getOrDefault(ServiceType.SECURITY, false);
 
-        int m = Math.min(electricity, Math.min(water, Math.min(internet, Math.min(population, goods))));
 
         if (electricity == 0 || water == 0 || internet == 0) {
             level = 0;
@@ -38,8 +37,7 @@ public class Commercial extends Zone {
             } else if (level == 2) {
                 if (!hasSecurity) {
                     level = 1;
-                }
-                else if (electricity > population && water > population &&
+                } else if (electricity > population && water > population &&
                         internet > population && electricity > goods &&
                         water > goods && internet > goods) {
                     level = 3;
@@ -78,10 +76,11 @@ public class Commercial extends Zone {
                 output = m * 2;
                 break;
             case 3:
-                output = (m * 2) +Math.min(population,goods);
+                output = (m * 2) + Math.min(population, goods);
                 break;
         }
     }
+
     @Override
     public String getLabel() {
         return "C";
