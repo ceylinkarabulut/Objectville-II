@@ -3,6 +3,7 @@ package com.objectville.zone;
 import com.objectville.cell.AbstractCell;
 import com.objectville.cell.CellType;
 import com.objectville.grid.Position;
+import com.objectville.resource.ResourceType;
 import com.objectville.service.ServiceType;
 import com.objectville.utility.UtilityType;
 
@@ -14,6 +15,7 @@ public abstract class Zone extends AbstractCell {
     protected int output;
     protected Map<UtilityType, Integer> utilitiesReceived = new HashMap<>();
     protected Map<ServiceType, Boolean> servicesReceived = new HashMap<>();
+    protected Map<ResourceType, Integer> resourcesReceived = new HashMap<>();
 
     public Zone(Position position, CellType type) {
         super(position, type);
@@ -36,9 +38,15 @@ public abstract class Zone extends AbstractCell {
         servicesReceived.put(type, true);
     }
 
+    public void receiveResource(ResourceType type,int amount){
+        int currentAmount=resourcesReceived.getOrDefault(type,0);
+        resourcesReceived.put(type,amount+currentAmount);
+    }
+
     public void resetTick() {
         servicesReceived.clear();
         utilitiesReceived.clear();
+        resourcesReceived.clear();
     }
 
     public abstract void updateLevel();

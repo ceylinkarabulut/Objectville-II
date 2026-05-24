@@ -2,6 +2,8 @@ package com.objectville.zone;
 
 import com.objectville.cell.CellType;
 import com.objectville.grid.Position;
+import com.objectville.resource.ResourceType;
+import com.objectville.utility.UtilityType;
 
 public class Industrial extends Zone {
 
@@ -11,6 +13,7 @@ public class Industrial extends Zone {
 
     @Override
     public void updateLevel() {
+
     }
 
     @Override
