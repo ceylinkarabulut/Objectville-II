@@ -23,8 +23,8 @@ public class Housing extends Zone {
 
         int lifeStyle = resourcesReceived.getOrDefault(ResourceType.LIFESTYLE, 0);
 
-        if (electricity==0||water==0||internet==0){
-            level=0;
+        if (electricity == 0 || water == 0 || internet == 0) {
+            level = 0;
             return;
         }
 
@@ -36,8 +36,14 @@ public class Housing extends Zone {
                     level = 2;
                 }
             } else if (level == 2) {
-                if (lifeStyle > 0) {
+                if (!hasSecurity || !hasEducation || !hasHealth) {
+                    level = 1;
+                } else if (lifeStyle > 0) {
                     level = 3;
+                }
+            } else if (level == 3) {
+                if (lifeStyle == 0) {
+                    level = 2;
                 }
             }
         }
@@ -68,5 +74,11 @@ public class Housing extends Zone {
         }
 
     }
+
+    @Override
+    public String getLabel() {
+        return "H";
+    }
+
 
 }

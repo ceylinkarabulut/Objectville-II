@@ -21,6 +21,9 @@ public class Commercial extends Zone {
         int internet = utilitiesReceived.getOrDefault(UtilityType.INTERNET, 0);
 
         boolean hasSecurity = servicesReceived.getOrDefault(ServiceType.SECURITY, false);
+
+        int m = Math.min(electricity, Math.min(water, Math.min(internet, Math.min(population, goods))));
+
         if (electricity == 0 || water == 0 || internet == 0) {
             level = 0;
             return;
@@ -33,10 +36,22 @@ public class Commercial extends Zone {
                     level = 2;
                 }
             } else if (level == 2) {
-                //Excess population and goods threshold is set to 5.
-                if (population > 5 && goods > 5) {
+                if (!hasSecurity) {
+                    level = 1;
+                }
+                else if (electricity > population && water > population &&
+                        internet > population && electricity > goods &&
+                        water > goods && internet > goods) {
                     level = 3;
                 }
+            } else if (level == 3) {
+                if (!hasSecurity || !(electricity > population && water > population && internet > population && electricity > goods && water > goods && internet > goods)) {
+                    level = 2;
+                }
+            }
+        } else {
+            if (level > 0) {
+                level--; // level = level - 1 demekle aynıdır, daha şık durur!
             }
         }
 
@@ -50,7 +65,7 @@ public class Commercial extends Zone {
         int water = utilitiesReceived.getOrDefault(UtilityType.WATER, 0);
         int internet = utilitiesReceived.getOrDefault(UtilityType.INTERNET, 0);
 
-        int m = Math.min(electricity, Math.min(water, Math.min(internet, Math.min(population, goods))));
+        int m = Math.min(electricity, Math.min(water, internet));
 
         switch (level) {
             case 0:
@@ -63,8 +78,13 @@ public class Commercial extends Zone {
                 output = m * 2;
                 break;
             case 3:
-                output = (m * 2) + (population - m) + (goods - m);
+                output = (m * 2) +Math.min(population,goods);
                 break;
         }
     }
+    @Override
+    public String getLabel() {
+        return "C";
+    }
+
 }

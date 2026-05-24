@@ -20,6 +20,8 @@ public class Industrial extends Zone {
 
         boolean hasSecurity = servicesReceived.getOrDefault(ServiceType.SECURITY, false);
 
+        int m = Math.min(electricity, (Math.min(water, population)));
+
         if (electricity == 0 || water == 0) {
             level = 0;
             return;
@@ -27,16 +29,27 @@ public class Industrial extends Zone {
 
         if (electricity > 0 && water > 0 && population > 0) {
             if (level == 0) {
+
                 level = 1;
             } else if (level == 1) {
                 if (hasSecurity) {
                     level = 2;
                 }
             } else if (level == 2) {
-                //Excess population threshold is set to 5.
-                if (population > 5) {
+                if (!hasSecurity) {
+                    level = 1;
+                }
+                else if (electricity > population && water > population) {
                     level = 3;
                 }
+            } else if (level == 3) {
+                if ((electricity <= population || water <= population)||!hasSecurity) {
+                    level = 2;
+                }
+            }
+        } else {
+            if (population == 0 && level > 0){
+                level = level - 1;
             }
         }
     }
@@ -47,7 +60,7 @@ public class Industrial extends Zone {
         int water = utilitiesReceived.getOrDefault(UtilityType.WATER, 0);
         int population = resourcesReceived.getOrDefault(ResourceType.POPULATION, 0);
 
-        int m = Math.min(electricity, (Math.min(water, population)));
+        int m = Math.min(electricity, water);
         switch (level) {
             case 0:
                 output = 0;
@@ -59,8 +72,13 @@ public class Industrial extends Zone {
                 output = m * 2;
                 break;
             case 3:
-                output = (m * 2) + (population - m);
+                output = (m * 2) + population;
                 break;
         }
     }
+    @Override
+    public String getLabel() {
+        return "I";
+    }
+
 }
