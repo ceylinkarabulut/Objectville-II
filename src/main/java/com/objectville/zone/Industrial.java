@@ -59,7 +59,7 @@ public class Industrial extends Zone {
                 output = m * 2;
                 break;
             case 3:
-                output = (m * 2) + (population-m);
+                output = (m * 2) + (population - m);
                 break;
         }
     }
