@@ -38,9 +38,9 @@ public abstract class Zone extends AbstractCell {
         servicesReceived.put(type, true);
     }
 
-    public void receiveResource(ResourceType type,int amount){
-        int currentAmount=resourcesReceived.getOrDefault(type,0);
-        resourcesReceived.put(type,amount+currentAmount);
+    public void receiveResource(ResourceType type, int amount) {
+        int currentAmount = resourcesReceived.getOrDefault(type, 0);
+        resourcesReceived.put(type, amount + currentAmount);
     }
 
     public void resetTick() {
