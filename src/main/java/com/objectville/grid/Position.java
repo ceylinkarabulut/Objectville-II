@@ -2,7 +2,12 @@ package com.objectville.grid;
 
 import java.util.Objects;
 
+/*
+  Immutable (row, col) coordinate on the grid.
+  Row = vertical axis (top to bottom), Col = horizontal axis (left to right).
+ */
 public final class Position {
+
     private final int row;
     private final int col;
 
@@ -14,14 +19,13 @@ public final class Position {
     public int getRow() { return row; }
     public int getCol() { return col; }
 
-    public int manhattanDistance(Position other) {
+    /*
+      Manhattan distance: |row1 - row2| + |col1 - col2|
+      Used by ServiceDistributor for radius checks.
+      Chosen over Euclidean for simplicity on a grid; documented in project report.
+     */
+    public int manhattanDistanceTo(Position other) {
         return Math.abs(this.row - other.row) + Math.abs(this.col - other.col);
-    }
-
-    public double euclideanDistance(Position other) {
-        int dr = this.row - other.row;
-        int dc = this.col - other.col;
-        return Math.sqrt(dr * dr + dc * dc);
     }
 
     @Override
@@ -33,8 +37,12 @@ public final class Position {
     }
 
     @Override
-    public int hashCode() { return Objects.hash(row, col); }
+    public int hashCode() {
+        return Objects.hash(row, col);
+    }
 
     @Override
-    public String toString() { return "(" + row + ", " + col + ")"; }
+    public String toString() {
+        return "(" + row + ", " + col + ")";
+    }
 }
