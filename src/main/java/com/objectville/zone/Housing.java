@@ -42,7 +42,7 @@ public class Housing extends Zone {
                     level = 3;
                 }
             } else if (level == 3) {
-                if (lifeStyle == 0) {
+                if (lifeStyle == 0||!hasSecurity||!hasEducation||!hasHealth) {
                     level = 2;
                 }
             }

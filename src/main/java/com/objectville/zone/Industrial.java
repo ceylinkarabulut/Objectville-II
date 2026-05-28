@@ -20,6 +20,7 @@ public class Industrial extends Zone {
 
         boolean hasSecurity = servicesReceived.getOrDefault(ServiceType.SECURITY, false);
 
+        int m = Math.min(electricity, water);
 
 
         if (electricity == 0 || water == 0) {
@@ -38,11 +39,11 @@ public class Industrial extends Zone {
             } else if (level == 2) {
                 if (!hasSecurity) {
                     level = 1;
-                } else if (electricity > population && water > population) {
+                } else if (population>m) {
                     level = 3;
                 }
             } else if (level == 3) {
-                if ((electricity <= population || water <= population) || !hasSecurity) {
+                if (m>=population||!hasSecurity){
                     level = 2;
                 }
             }

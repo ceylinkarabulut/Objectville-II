@@ -17,6 +17,14 @@ public abstract class Zone extends AbstractCell {
     protected Map<ServiceType, Boolean> servicesReceived = new HashMap<>();
     protected Map<ResourceType, Integer> resourcesReceived = new HashMap<>();
 
+    public int getLevel(){
+        return level;
+    }
+
+    public int getOutput(){
+        return output;
+    }
+
     public Zone(Position position, CellType type) {
         super(position, type);
     }

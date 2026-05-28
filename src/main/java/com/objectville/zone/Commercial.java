@@ -22,6 +22,8 @@ public class Commercial extends Zone {
 
         boolean hasSecurity = servicesReceived.getOrDefault(ServiceType.SECURITY, false);
 
+        int m = Math.min(electricity, Math.min(water, internet));
+
 
         if (electricity == 0 || water == 0 || internet == 0) {
             level = 0;
@@ -37,19 +39,17 @@ public class Commercial extends Zone {
             } else if (level == 2) {
                 if (!hasSecurity) {
                     level = 1;
-                } else if (electricity > population && water > population &&
-                        internet > population && electricity > goods &&
-                        water > goods && internet > goods) {
+                } else if (population>m&&goods>m) {
                     level = 3;
                 }
             } else if (level == 3) {
-                if (!hasSecurity || !(electricity > population && water > population && internet > population && electricity > goods && water > goods && internet > goods)) {
+                if (!hasSecurity || population<=m||goods<=m) {
                     level = 2;
                 }
             }
         } else {
             if (level > 0) {
-                level--; // level = level - 1 demekle aynıdır, daha şık durur!
+                level--;
             }
         }
 
