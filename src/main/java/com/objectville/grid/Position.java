@@ -40,6 +40,12 @@ public final class Position {
     public int hashCode() {
         return Objects.hash(row, col);
     }
+    /*
+    What is Objects.hash()?
+Objects.hash() is a static method provided by the java.util.Objects class, designed to simplify the generation of hash codes.
+It takes a variable number of arguments (varargs) and returns a combined hash code based on the values of those arguments.
+This makes it extremely useful for classes with multiple fields, as you can simply pass the fields to Objects.hash() rather than writing complex hash code logic manually.
+     */
 
     @Override
     public String toString() {
