@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Zone extends AbstractCell {
+    protected int population;
+    protected int goods;
+    protected int lifestyle;
+    protected int previousLevel;
     protected int level;
     protected int output;
     protected Map<UtilityType, Integer> utilitiesReceived = new HashMap<>();
@@ -44,6 +48,7 @@ public abstract class Zone extends AbstractCell {
 
     public void receiveService(ServiceType type) {
         servicesReceived.put(type, true);
+
     }
 
     public void receiveResource(ResourceType type, int amount) {
@@ -56,10 +61,24 @@ public abstract class Zone extends AbstractCell {
         utilitiesReceived.clear();
         resourcesReceived.clear();
     }
+    public int getUtility(UtilityType type) {
+        if (utilitiesReceived.containsKey(type)) {
+            return utilitiesReceived.get(type);
+        }
+        return 0;
+    }
+
+    public boolean hasService(ServiceType type) {
+        if (servicesReceived.containsKey(type)) {
+            return servicesReceived.get(type);
+        }
+        return false;
+    }
 
     public abstract void updateLevel();
 
     public abstract void computeOutput();
+
 
     @Override
     public boolean isConnectable() {

@@ -18,6 +18,23 @@ public class Housing extends Zone {
 
     @Override
     public void updateLevel() {
+        previousLevel = level;
+
+        if (getUtility(UtilityType.ELECTRICITY) > 0 &&
+                getUtility(UtilityType.WATER) > 0 &&
+                getUtility(UtilityType.INTERNET) > 0) {
+            level = 1;
+        }
+        if (level == 1 &&
+                hasService(ServiceType.SECURITY) &&
+                hasService(ServiceType.HEALTH) &&
+                hasService(ServiceType.EDUCATION)) {
+            level = 2;
+        }
+        if (level == 2 && lifestyle > 0) {
+            level = 3;
+        }
+
 
         if (getElectricity() == 0 || getWater() == 0 || getInternet() == 0) {
             level = 0;
@@ -47,6 +64,15 @@ public class Housing extends Zone {
 
     @Override
     public void computeOutput() {
+        int m = Math.min(getUtility(UtilityType.ELECTRICITY),
+                Math.min(getUtility(UtilityType.WATER),
+                        getUtility(UtilityType.INTERNET)));
+        if (level == 1) output = m;
+        else if (level == 2) output = 2 * m;
+        else if (level == 3) output = 2 * m + lifestyle;
+        else output = 0;
+
+        population = output;
 
         int m = calculateMinUtility();
 

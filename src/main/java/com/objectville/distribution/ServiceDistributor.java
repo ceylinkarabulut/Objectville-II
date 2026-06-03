@@ -1,33 +1,44 @@
 package com.objectville.distribution;
 
-import com.objectville.cell.AbstractCell;
 import com.objectville.grid.Grid;
+import com.objectville.grid.Position;
 import com.objectville.service.ServiceBuilding;
 import com.objectville.zone.Zone;
+import com.objectville.cell.AbstractCell;
+import com.objectville.cell.CellType;
 
 import java.util.List;
 
-/*
-  Step 1 of tick loop.
-  Distance metric: Manhattan distance (documented in project report).
-  No BFS, no road connection required. Empty cells do not block.
-  Zones ON the boundary (distance == radius) receive the service.
-*/
 public class ServiceDistributor {
 
-    public void distribute(Grid grid) {
+    public static void distribute(Grid grid) {
         List<ServiceBuilding> buildings = grid.getServiceBuildings();
-        List<AbstractCell>    cells     = grid.getZones(); // Grid returns AbstractCell for now
-
         for (ServiceBuilding building : buildings) {
-            for (AbstractCell cell : cells) {
-                if (!(cell instanceof Zone)) continue;
-                Zone zone = (Zone) cell;
-                int dist = zone.getPosition().manhattanDistanceTo(building.getPosition());
-                if (dist <= building.getRadius()) {
-                    zone.receiveService(building.getServiceType());
+            Position bPos = building.getPosition();
+            int radius = building.getRadius();
+
+            for (int i = 0; i < grid.getRows(); i++) {
+                for (int j = 0; j < grid.getCols(); j++) {
+                    AbstractCell cell = grid.getCell(i, j);
+                    if (cell == null) continue;
+                    CellType t = cell.getType();
+                    if (t != CellType.HOUSING && t != CellType.INDUSTRIAL && t != CellType.COMMERCIAL) continue;
+
+                    int dist = bPos.manhattanDistance(new Position(i, j));
+                    if (dist <= radius) {
+                        Zone zone = (Zone) cell;
+                        zone.receiveService(building.getServiceType());
+                        System.out.println(getZoneName(t) + " at (" + i + "," + j + ") received " + building.getServiceType().getName().toLowerCase() + " service");
+                    }
                 }
             }
         }
+    }
+
+    private static String getZoneName(CellType type) {
+        if (type == CellType.HOUSING) return "House";
+        if (type == CellType.INDUSTRIAL) return "Industrial";
+        if (type == CellType.COMMERCIAL) return "Commercial";
+        return "";
     }
 }
