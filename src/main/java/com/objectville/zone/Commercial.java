@@ -13,37 +13,34 @@ public class Commercial extends Zone {
     }
 
     @Override
+    public int calculateMinUtility() {
+        return Math.min(getElectricity(), Math.min(getWater(), getInternet()));
+    }
+
+    @Override
     public void updateLevel() {
-        int population = resourcesReceived.getOrDefault(ResourceType.POPULATION, 0);
-        int goods = resourcesReceived.getOrDefault(ResourceType.GOODS, 0);
-        int electricity = utilitiesReceived.getOrDefault(UtilityType.ELECTRICITY, 0);
-        int water = utilitiesReceived.getOrDefault(UtilityType.WATER, 0);
-        int internet = utilitiesReceived.getOrDefault(UtilityType.INTERNET, 0);
 
-        boolean hasSecurity = servicesReceived.getOrDefault(ServiceType.SECURITY, false);
+        int m = calculateMinUtility();
 
-        int m = Math.min(electricity, Math.min(water, internet));
-
-
-        if (electricity == 0 || water == 0 || internet == 0) {
+        if (getElectricity() == 0 || getWater() == 0 || getInternet() == 0) {
             level = 0;
             return;
         }
-        if (population > 0 && goods > 0 && electricity > 0 && water > 0 && internet > 0) {
+        if (getPopulation() > 0 && getGoods() > 0 && getElectricity() > 0 && getWater() > 0 && getInternet() > 0) {
             if (level == 0) {
                 level = 1;
             } else if (level == 1) {
-                if (hasSecurity) {
+                if (hasSecurity()) {
                     level = 2;
                 }
             } else if (level == 2) {
-                if (!hasSecurity) {
+                if (!hasSecurity()) {
                     level = 1;
-                } else if (population>m&&goods>m) {
+                } else if (getPopulation() > m && getGoods() > m) {
                     level = 3;
                 }
             } else if (level == 3) {
-                if (!hasSecurity || population<=m||goods<=m) {
+                if (!hasSecurity() || getPopulation() <= m || getGoods() <= m) {
                     level = 2;
                 }
             }
@@ -57,13 +54,8 @@ public class Commercial extends Zone {
 
     @Override
     public void computeOutput() {
-        int population = resourcesReceived.getOrDefault(ResourceType.POPULATION, 0);
-        int goods = resourcesReceived.getOrDefault(ResourceType.GOODS, 0);
-        int electricity = utilitiesReceived.getOrDefault(UtilityType.ELECTRICITY, 0);
-        int water = utilitiesReceived.getOrDefault(UtilityType.WATER, 0);
-        int internet = utilitiesReceived.getOrDefault(UtilityType.INTERNET, 0);
 
-        int m = Math.min(electricity, Math.min(water, internet));
+        int m = calculateMinUtility();
 
         switch (level) {
             case 0:
@@ -76,7 +68,7 @@ public class Commercial extends Zone {
                 output = m * 2;
                 break;
             case 3:
-                output = (m * 2) + Math.min(population, goods);
+                output = (m * 2) + Math.min(getPopulation(), getGoods());
                 break;
         }
     }

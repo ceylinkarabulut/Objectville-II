@@ -17,11 +17,11 @@ public abstract class Zone extends AbstractCell {
     protected Map<ServiceType, Boolean> servicesReceived = new HashMap<>();
     protected Map<ResourceType, Integer> resourcesReceived = new HashMap<>();
 
-    public int getLevel(){
+    public int getLevel() {
         return level;
     }
 
-    public int getOutput(){
+    public int getOutput() {
         return output;
     }
 
@@ -70,5 +70,44 @@ public abstract class Zone extends AbstractCell {
     public String getLabel() {
         return "";
     }
+
+    public abstract int calculateMinUtility();
+
+    public int getPopulation() {
+        return resourcesReceived.getOrDefault(ResourceType.POPULATION, 0);
+    }
+
+    public int getGoods() {
+        return resourcesReceived.getOrDefault(ResourceType.GOODS, 0);
+    }
+
+    public int getElectricity() {
+        return utilitiesReceived.getOrDefault(UtilityType.ELECTRICITY, 0);
+    }
+
+    public int getWater() {
+        return utilitiesReceived.getOrDefault(UtilityType.WATER, 0);
+    }
+
+    public int getInternet() {
+        return utilitiesReceived.getOrDefault(UtilityType.INTERNET, 0);
+    }
+
+    public int getLifeStyle() {
+        return resourcesReceived.getOrDefault(ResourceType.LIFESTYLE, 0);
+    }
+
+    public boolean hasSecurity() {
+        return servicesReceived.getOrDefault(ServiceType.SECURITY, false);
+    }
+
+    public boolean hasEducation() {
+        return servicesReceived.getOrDefault(ServiceType.EDUCATION, false);
+    }
+
+    public boolean hasHealth() {
+        return servicesReceived.getOrDefault(ServiceType.HEALTH, false);
+    }
+
 
 }

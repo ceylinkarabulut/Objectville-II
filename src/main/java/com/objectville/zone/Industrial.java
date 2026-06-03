@@ -13,42 +13,41 @@ public class Industrial extends Zone {
     }
 
     @Override
+    public int calculateMinUtility() {
+        return Math.min(getElectricity(), getWater());
+    }
+
+    @Override
     public void updateLevel() {
-        int electricity = utilitiesReceived.getOrDefault(UtilityType.ELECTRICITY, 0);
-        int water = utilitiesReceived.getOrDefault(UtilityType.WATER, 0);
-        int population = resourcesReceived.getOrDefault(ResourceType.POPULATION, 0);
 
-        boolean hasSecurity = servicesReceived.getOrDefault(ServiceType.SECURITY, false);
+        int m = calculateMinUtility();
 
-        int m = Math.min(electricity, water);
-
-
-        if (electricity == 0 || water == 0) {
+        if (getElectricity() == 0 || getWater() == 0) {
             level = 0;
             return;
         }
 
-        if (electricity > 0 && water > 0 && population > 0) {
+        if (getElectricity() > 0 && getWater() > 0 && getPopulation() > 0) {
             if (level == 0) {
 
                 level = 1;
             } else if (level == 1) {
-                if (hasSecurity) {
+                if (hasSecurity()) {
                     level = 2;
                 }
             } else if (level == 2) {
-                if (!hasSecurity) {
+                if (!hasSecurity()) {
                     level = 1;
-                } else if (population>m) {
+                } else if (getPopulation() > m) {
                     level = 3;
                 }
             } else if (level == 3) {
-                if (m>=population||!hasSecurity){
+                if (m >= getPopulation() || !hasSecurity()) {
                     level = 2;
                 }
             }
         } else {
-            if (population == 0 && level > 0) {
+            if (getPopulation() == 0 && level > 0) {
                 level = level - 1;
             }
         }
@@ -56,11 +55,7 @@ public class Industrial extends Zone {
 
     @Override
     public void computeOutput() {
-        int electricity = utilitiesReceived.getOrDefault(UtilityType.ELECTRICITY, 0);
-        int water = utilitiesReceived.getOrDefault(UtilityType.WATER, 0);
-        int population = resourcesReceived.getOrDefault(ResourceType.POPULATION, 0);
-
-        int m = Math.min(electricity, water);
+        int m = calculateMinUtility();
         switch (level) {
             case 0:
                 output = 0;
@@ -72,7 +67,7 @@ public class Industrial extends Zone {
                 output = m * 2;
                 break;
             case 3:
-                output = (m * 2) + population;
+                output = (m * 2) + getPopulation();
                 break;
         }
     }
