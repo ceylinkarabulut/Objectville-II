@@ -3,6 +3,7 @@ package com.objectville.zone;
 import com.objectville.cell.AbstractCell;
 import com.objectville.cell.CellType;
 import com.objectville.grid.Position;
+import com.objectville.resource.ResourceType;
 import com.objectville.service.ServiceType;
 import com.objectville.utility.UtilityType;
 
@@ -18,46 +19,47 @@ public abstract class Zone extends AbstractCell {
     protected int output;
     protected Map<UtilityType, Integer> utilitiesReceived = new HashMap<>();
     protected Map<ServiceType, Boolean> servicesReceived = new HashMap<>();
-    public int getPopulation() { return population; }
-    public void setPopulation(int population) { this.population = population; }
+    protected Map<ResourceType, Integer> resourcesReceived = new HashMap<>();
 
-    public int getGoods() { return goods; }
-    public void setGoods(int goods) { this.goods = goods; }
+    public int getLevel() {
+        return level;
+    }
 
-    public int getLifestyle() { return lifestyle; }
-    public void setLifestyle(int lifestyle) { this.lifestyle = lifestyle; }
-
-    public int getLevel() { return level; }
-    public int getPreviousLevel() { return previousLevel; }
+    public int getOutput() {
+        return output;
+    }
 
     public Zone(Position position, CellType type) {
         super(position, type);
     }
 
     public int getDemand() {
-        return 0;
+        if (output < 1) {
+            return 1;
+        } else {
+            return output;
+        }
     }
 
     public void receiveUtility(UtilityType type, int amount) {
-        int current = 0;
-        if (utilitiesReceived.containsKey(type)) {
-            current = utilitiesReceived.get(type);
-        }
-        utilitiesReceived.put(type, current + amount);
-
+        int currentAmount = utilitiesReceived.getOrDefault(type, 0);
+        utilitiesReceived.put(type, amount + currentAmount);
     }
 
     public void receiveService(ServiceType type) {
         servicesReceived.put(type, true);
 
+    }
 
+    public void receiveResource(ResourceType type, int amount) {
+        int currentAmount = resourcesReceived.getOrDefault(type, 0);
+        resourcesReceived.put(type, amount + currentAmount);
     }
 
     public void resetTick() {
-        utilitiesReceived.clear();
         servicesReceived.clear();
-        previousLevel = level;
-
+        utilitiesReceived.clear();
+        resourcesReceived.clear();
     }
     public int getUtility(UtilityType type) {
         if (utilitiesReceived.containsKey(type)) {
@@ -87,5 +89,44 @@ public abstract class Zone extends AbstractCell {
     public String getLabel() {
         return "";
     }
+
+    public abstract int calculateMinUtility();
+
+    public int getPopulation() {
+        return resourcesReceived.getOrDefault(ResourceType.POPULATION, 0);
+    }
+
+    public int getGoods() {
+        return resourcesReceived.getOrDefault(ResourceType.GOODS, 0);
+    }
+
+    public int getElectricity() {
+        return utilitiesReceived.getOrDefault(UtilityType.ELECTRICITY, 0);
+    }
+
+    public int getWater() {
+        return utilitiesReceived.getOrDefault(UtilityType.WATER, 0);
+    }
+
+    public int getInternet() {
+        return utilitiesReceived.getOrDefault(UtilityType.INTERNET, 0);
+    }
+
+    public int getLifeStyle() {
+        return resourcesReceived.getOrDefault(ResourceType.LIFESTYLE, 0);
+    }
+
+    public boolean hasSecurity() {
+        return servicesReceived.getOrDefault(ServiceType.SECURITY, false);
+    }
+
+    public boolean hasEducation() {
+        return servicesReceived.getOrDefault(ServiceType.EDUCATION, false);
+    }
+
+    public boolean hasHealth() {
+        return servicesReceived.getOrDefault(ServiceType.HEALTH, false);
+    }
+
 
 }
