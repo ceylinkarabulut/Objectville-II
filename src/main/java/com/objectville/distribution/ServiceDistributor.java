@@ -24,7 +24,7 @@ public class ServiceDistributor {
                     CellType t = cell.getType();
                     if (t != CellType.HOUSING && t != CellType.INDUSTRIAL && t != CellType.COMMERCIAL) continue;
 
-                    int dist = bPos.manhattanDistance(new Position(i, j));
+                    int dist = bPos.manhattanDistanceTo(new Position(i, j));
                     if (dist <= radius) {
                         Zone zone = (Zone) cell;
                         zone.receiveService(building.getServiceType());

@@ -69,16 +69,6 @@ public class Commercial extends Zone {
 
     @Override
     public void computeOutput() {
-        int m = Math.min(getUtility(UtilityType.ELECTRICITY),
-                Math.min(getUtility(UtilityType.WATER),
-                        getUtility(UtilityType.INTERNET)));
-        if (level == 1) output = m;
-        else if (level == 2) output = 2 * m;
-        else if (level == 3) output = 2 * m + Math.min(population, goods);
-        else output = 0;
-
-        lifestyle = output;
-
         int m = calculateMinUtility();
 
         switch (level) {

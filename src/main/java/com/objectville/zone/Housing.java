@@ -64,16 +64,6 @@ public class Housing extends Zone {
 
     @Override
     public void computeOutput() {
-        int m = Math.min(getUtility(UtilityType.ELECTRICITY),
-                Math.min(getUtility(UtilityType.WATER),
-                        getUtility(UtilityType.INTERNET)));
-        if (level == 1) output = m;
-        else if (level == 2) output = 2 * m;
-        else if (level == 3) output = 2 * m + lifestyle;
-        else output = 0;
-
-        population = output;
-
         int m = calculateMinUtility();
 
         switch (level) {
