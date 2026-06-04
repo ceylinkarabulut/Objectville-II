@@ -3,6 +3,10 @@ package com.objectville.service;
 import com.objectville.cell.AbstractCell;
 import com.objectville.cell.CellType;
 import com.objectville.grid.Position;
+import com.objectville.zone.Zone;
+import jdk.dynalink.linker.LinkerServices;
+
+import java.util.List;
 
 /*
  * Base class for Police Station, Hospital, and School.
@@ -18,18 +22,49 @@ public abstract class ServiceBuilding extends AbstractCell {
     protected ServiceBuilding(Position position, int radius, CellType cellType, ServiceType serviceType) {
         super(position, cellType);
         this.serviceType = serviceType;
-        this.radius      = radius;
+        this.radius = radius;
     }
 
-    public ServiceType getServiceType() { return serviceType; }
-    public int getRadius() { return radius; }
+    public ServiceType getServiceType() {
+        return serviceType;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
 
     /* Service buildings are connectable (utility BFS may pass through). */
-    @Override public boolean isConnectable() { return true; }
+    @Override
+    public boolean isConnectable() {
+        return true;
+    }
 
     @Override
-    public void resetTick() {}
+    public void resetTick() {
+        //No data to clear.
+    }
 
     @Override
-    public String getLabel() { return getServiceType().getName(); }
+    public String getLabel() {
+        return getServiceType().getName();
+    }
+
+    public void distributeService(Zone zone) {
+        int distance = this.getPosition().manhattanDistance(zone.getPosition());
+        if (distance <= radius) {
+            zone.receiveService(this.serviceType);
+        }
+    }
+
+    public void provideService(List<AbstractCell> cells) {
+        for (AbstractCell cell : cells) {
+            if (cell.getPosition().manhattanDistance(this.getPosition()) <= getRadius()) {
+                if (cell instanceof Zone) {
+                    Zone zone = (Zone) cell;
+                    zone.receiveService(serviceType);
+                }
+            }
+
+        }
+    }
 }
