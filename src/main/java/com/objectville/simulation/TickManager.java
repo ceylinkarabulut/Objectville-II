@@ -35,12 +35,6 @@ public class TickManager {
         accumulateProduction(grid);
     }
 
-    private static void updateZones(Grid grid) {
-        for (Housing h : grid.getHousingZones()) h.updateLevel();
-        for (Industrial i : grid.getIndustrialZones()) i.updateLevel();
-        for (Commercial c : grid.getCommercialZones()) c.updateLevel();
-    }
-
     private static void accumulateProduction(Grid grid) {
         for (Housing h : grid.getHousingZones()) {
             int prev = h.getPreviousLevel();
@@ -61,6 +55,12 @@ public class TickManager {
             System.out.println("Commercial at:   (" + c.getPosition().getRow() + "," + c.getPosition().getCol() + ") generated  " + c.getOutput() + " lifestyle ");
             printLevelChange("Commercial : ", c.getPosition(), prev, c.getLevel());
         }
+    }
+
+    private static void updateZones(Grid grid) {
+        for (Housing h : grid.getHousingZones()) h.updateLevel();
+        for (Industrial i : grid.getIndustrialZones()) i.updateLevel();
+        for (Commercial c : grid.getCommercialZones()) c.updateLevel();
     }
 
     private static void printLevelChange(String name, com.objectville.grid.Position pos, int prev, int curr) {
