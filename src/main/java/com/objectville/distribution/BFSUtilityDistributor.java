@@ -51,7 +51,7 @@ public class BFSUtilityDistributor {
                 Position neighborPos = new Position(neighborRow, neighborCol);       // Position
                 if (grid.isInBounds(neighborRow, neighborCol) && !visited.contains(neighborPos)) {
                     AbstractCell neighborCell = grid.getCell(neighborRow, neighborCol);  // Cell
-                    if (neighborCell.isConnectable()) {
+                    if (neighborCell != null && neighborCell.isConnectable()) {
                         queue.add(neighborPos);
                         visited.add(neighborPos);
                     }

@@ -10,6 +10,9 @@ import com.objectville.utility.UtilityProvider;
 import com.objectville.zone.Commercial;
 import com.objectville.zone.Housing;
 import com.objectville.zone.Industrial;
+import com.objectville.utility.PowerPlant;
+import com.objectville.utility.WaterPump;
+import com.objectville.utility.InternetHub;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -60,9 +63,9 @@ public class Grid {
             case 'F': return new PoliceStation(pos);
             case 'D': return new Hospital(pos);
             case 'S': return new School(pos);
-            //case 'P': return new PowerPlant(pos);
-           // case 'W': return new WaterPump(pos);
-           // case 'T': return new InternetHub(pos);
+            case 'P': return new PowerPlant(pos);
+            case 'W': return new WaterPump(pos);
+            case 'T': return new InternetHub(pos);
             default: return null;
         }
     }
