@@ -1,6 +1,7 @@
 package com.objectville.distribution;
 
 import com.objectville.cell.AbstractCell;
+import com.objectville.cell.CellType;
 import com.objectville.grid.Grid;
 import com.objectville.grid.Position;
 import com.objectville.utility.UtilityProvider;
@@ -12,6 +13,7 @@ import java.util.Queue;
 import java.util.Set;
 
 public class BFSUtilityDistributor {
+
 
 
     public void distribute(UtilityProvider provider, Grid grid) {
@@ -42,6 +44,11 @@ public class BFSUtilityDistributor {
 
                 zone.receiveUtility(provider.getUtilityType(), requiredAmount);
                 remainingCapacity -= requiredAmount;
+                String zoneName;
+                if (zone.getType() == CellType.HOUSING) zoneName = "House";
+                else if (zone.getType() == CellType.INDUSTRIAL) zoneName = "Industrial";
+                else zoneName = "Commercial";
+                System.out.println(zoneName + " at (" + zone.getPosition().getRow() + "," + zone.getPosition().getCol() + ") received " + requiredAmount + " " + provider.getUtilityType().getName().toLowerCase());
             }
 
             for (int i = 0; i < 4; i++) {                                 //      Up
@@ -57,7 +64,10 @@ public class BFSUtilityDistributor {
                     }
                 }
             }
+
         }
+
     }
+
 
 }
