@@ -17,9 +17,6 @@ import java.util.List;
   Goods       → Commercial               (equal share, integer division)
   Lifestyle   → Housing                  (equal share, integer division)
 
-  NOTE: receivePopulation / receiveGoods / receiveLifestyle are defined
-  on Zone by Görev 2. The methods are called via casting
-  so this file compiles independently until Görev 2 adds them.
 */
 public class ResourceDistributor {
 
