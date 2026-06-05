@@ -9,9 +9,9 @@ import jdk.dynalink.linker.LinkerServices;
 import java.util.List;
 
 /*
- * Base class for Police Station, Hospital, and School.
- * Services are broadcast to all zones within a radius.
- * No road connection is required.
+  Base class for Police Station, Hospital, and School.
+  Services are broadcast to all zones within a radius.
+  No road connection is required.
  */
 
 public abstract class ServiceBuilding extends AbstractCell {

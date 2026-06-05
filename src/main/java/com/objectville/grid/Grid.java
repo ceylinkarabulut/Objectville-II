@@ -2,6 +2,8 @@ package com.objectville.grid;
 
 import com.objectville.cell.AbstractCell;
 import com.objectville.cell.CellType;
+import com.objectville.cell.EmptyCell;
+import com.objectville.cell.Road;
 import com.objectville.service.Hospital;
 import com.objectville.service.PoliceStation;
 import com.objectville.service.School;
@@ -63,6 +65,8 @@ public class Grid {
             case 'P': return new PowerPlant(pos);
             case 'W': return new WaterPump(pos);
             case 'T': return new InternetHub(pos);
+            case 'R': return new Road(pos);
+            case 'E': return new EmptyCell(pos);
             default: return null;
         }
     }
