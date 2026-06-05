@@ -19,6 +19,7 @@ public class Industrial extends Zone {
 
     @Override
     public void updateLevel() {
+        previousLevel = level;
 
         int m = calculateMinUtility();
 

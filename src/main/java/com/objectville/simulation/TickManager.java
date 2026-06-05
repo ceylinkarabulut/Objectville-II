@@ -1,5 +1,6 @@
 package com.objectville.simulation;
 
+import com.objectville.cell.AbstractCell;
 import com.objectville.distribution.BFSUtilityDistributor;
 import com.objectville.resource.ResourceDistributor;
 import com.objectville.distribution.ServiceDistributor;
@@ -14,6 +15,12 @@ import java.util.List;
 public class TickManager {
 
     public static void runTick(Grid grid, int tickNumber) {
+        for (int r = 0; r < grid.getRows(); r++) {
+            for (int c = 0; c < grid.getCols(); c++) {
+                AbstractCell cell = grid.getCell(r, c);
+                if (cell != null) cell.resetTick();
+            }
+        }
         System.out.println("Tick " + tickNumber);
 
         // 1. ServiceDistributor    2. BFS      3. ResourceDistributor

@@ -20,22 +20,6 @@ public class Housing extends Zone {
     public void updateLevel() {
         previousLevel = level;
 
-        if (getUtility(UtilityType.ELECTRICITY) > 0 &&
-                getUtility(UtilityType.WATER) > 0 &&
-                getUtility(UtilityType.INTERNET) > 0) {
-            level = 1;
-        }
-        if (level == 1 &&
-                hasService(ServiceType.SECURITY) &&
-                hasService(ServiceType.HEALTH) &&
-                hasService(ServiceType.EDUCATION)) {
-            level = 2;
-        }
-        if (level == 2 && lifestyle > 0) {
-            level = 3;
-        }
-
-
         if (getElectricity() == 0 || getWater() == 0 || getInternet() == 0) {
             level = 0;
             return;
