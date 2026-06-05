@@ -50,7 +50,7 @@ public abstract class ServiceBuilding extends AbstractCell {
     }
 
     public void distributeService(Zone zone) {
-        int distance = this.getPosition().manhattanDistance(zone.getPosition());
+        int distance = this.getPosition().manhattanDistanceTo(zone.getPosition());
         if (distance <= radius) {
             zone.receiveService(this.serviceType);
         }
@@ -58,7 +58,7 @@ public abstract class ServiceBuilding extends AbstractCell {
 
     public void provideService(List<AbstractCell> cells) {
         for (AbstractCell cell : cells) {
-            if (cell.getPosition().manhattanDistance(this.getPosition()) <= getRadius()) {
+            if (cell.getPosition().manhattanDistanceTo(this.getPosition()) <= getRadius()) {
                 if (cell instanceof Zone) {
                     Zone zone = (Zone) cell;
                     zone.receiveService(serviceType);
