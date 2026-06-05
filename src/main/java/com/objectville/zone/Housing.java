@@ -51,11 +51,11 @@ public class Housing extends Zone {
             } else if (level == 2) {
                 if (!hasSecurity() || !hasEducation() || !hasHealth()) {
                     level = 1;
-                } else if (getLifeStyle() > 0) {
+                } else if (getLifestyle() > 0) {
                     level = 3;
                 }
             } else if (level == 3) {
-                if (getLifeStyle() == 0 || !hasSecurity() || !hasEducation() || !hasHealth()) {
+                if (getLifestyle() == 0 || !hasSecurity() || !hasEducation() || !hasHealth()) {
                     level = 2;
                 }
             }
@@ -77,7 +77,7 @@ public class Housing extends Zone {
                 output = 2 * m;
                 break;
             case 3:
-                output = (m * 2) + getLifeStyle();
+                output = (m * 2) + getLifestyle();
                 break;
         }
 
