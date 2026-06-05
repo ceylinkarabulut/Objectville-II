@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Zone extends AbstractCell {
+    protected int population;
+    protected int goods;
+    protected int lifestyle;
+    protected int previousLevel;
     protected int level;
     protected int output;
     protected Map<UtilityType, Integer> utilitiesReceived = new HashMap<>();
@@ -44,6 +48,7 @@ public abstract class Zone extends AbstractCell {
 
     public void receiveService(ServiceType type) {
         servicesReceived.put(type, true);
+
     }
 
     public void receiveResource(ResourceType type, int amount) {
@@ -57,9 +62,24 @@ public abstract class Zone extends AbstractCell {
         resourcesReceived.clear();
     }
 
+    public int getUtility(UtilityType type) {
+        if (utilitiesReceived.containsKey(type)) {
+            return utilitiesReceived.get(type);
+        }
+        return 0;
+    }
+
+    public boolean hasService(ServiceType type) {
+        if (servicesReceived.containsKey(type)) {
+            return servicesReceived.get(type);
+        }
+        return false;
+    }
+
     public abstract void updateLevel();
 
     public abstract void computeOutput();
+
 
     @Override
     public boolean isConnectable() {
@@ -77,8 +97,16 @@ public abstract class Zone extends AbstractCell {
         return resourcesReceived.getOrDefault(ResourceType.POPULATION, 0);
     }
 
+    public void setPopulation(int amount) {
+        resourcesReceived.put(ResourceType.POPULATION, amount);
+    }
+
     public int getGoods() {
         return resourcesReceived.getOrDefault(ResourceType.GOODS, 0);
+    }
+
+    public void setGoods(int amount) {
+        resourcesReceived.put(ResourceType.GOODS, amount);
     }
 
     public int getElectricity() {
@@ -93,8 +121,12 @@ public abstract class Zone extends AbstractCell {
         return utilitiesReceived.getOrDefault(UtilityType.INTERNET, 0);
     }
 
-    public int getLifeStyle() {
+    public int getLifestyle() {
         return resourcesReceived.getOrDefault(ResourceType.LIFESTYLE, 0);
+    }
+
+    public void setLifestyle(int amount) {
+        resourcesReceived.put(ResourceType.LIFESTYLE, amount);
     }
 
     public boolean hasSecurity() {
@@ -109,5 +141,8 @@ public abstract class Zone extends AbstractCell {
         return servicesReceived.getOrDefault(ServiceType.HEALTH, false);
     }
 
+    public int getPreviousLevel() {
+        return previousLevel;
+    }
 
 }

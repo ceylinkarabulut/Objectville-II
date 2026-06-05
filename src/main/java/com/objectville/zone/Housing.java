@@ -18,6 +18,23 @@ public class Housing extends Zone {
 
     @Override
     public void updateLevel() {
+        previousLevel = level;
+
+        if (getUtility(UtilityType.ELECTRICITY) > 0 &&
+                getUtility(UtilityType.WATER) > 0 &&
+                getUtility(UtilityType.INTERNET) > 0) {
+            level = 1;
+        }
+        if (level == 1 &&
+                hasService(ServiceType.SECURITY) &&
+                hasService(ServiceType.HEALTH) &&
+                hasService(ServiceType.EDUCATION)) {
+            level = 2;
+        }
+        if (level == 2 && lifestyle > 0) {
+            level = 3;
+        }
+
 
         if (getElectricity() == 0 || getWater() == 0 || getInternet() == 0) {
             level = 0;
@@ -34,11 +51,11 @@ public class Housing extends Zone {
             } else if (level == 2) {
                 if (!hasSecurity() || !hasEducation() || !hasHealth()) {
                     level = 1;
-                } else if (getLifeStyle() > 0) {
+                } else if (getLifestyle() > 0) {
                     level = 3;
                 }
             } else if (level == 3) {
-                if (getLifeStyle() == 0 || !hasSecurity() || !hasEducation() || !hasHealth()) {
+                if (getLifestyle() == 0 || !hasSecurity() || !hasEducation() || !hasHealth()) {
                     level = 2;
                 }
             }
@@ -47,7 +64,6 @@ public class Housing extends Zone {
 
     @Override
     public void computeOutput() {
-
         int m = calculateMinUtility();
 
         switch (level) {
@@ -61,7 +77,7 @@ public class Housing extends Zone {
                 output = 2 * m;
                 break;
             case 3:
-                output = (m * 2) + getLifeStyle();
+                output = (m * 2) + getLifestyle();
                 break;
         }
 

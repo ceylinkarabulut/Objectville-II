@@ -19,7 +19,7 @@ public abstract class ServiceBuilding extends AbstractCell {
     private final ServiceType serviceType;
     private final int radius;
 
-    protected ServiceBuilding(Position position, int radius, CellType cellType, ServiceType serviceType) {
+    public ServiceBuilding(Position position, int radius, CellType cellType, ServiceType serviceType) {
         super(position, cellType);
         this.serviceType = serviceType;
         this.radius = radius;
