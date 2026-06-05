@@ -6,13 +6,10 @@ import com.objectville.service.Hospital;
 import com.objectville.service.PoliceStation;
 import com.objectville.service.School;
 import com.objectville.service.ServiceBuilding;
-import com.objectville.utility.UtilityProvider;
+import com.objectville.utility.*;
 import com.objectville.zone.Commercial;
 import com.objectville.zone.Housing;
 import com.objectville.zone.Industrial;
-import com.objectville.utility.PowerPlant;
-import com.objectville.utility.WaterPump;
-import com.objectville.utility.InternetHub;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -149,7 +146,16 @@ public class Grid {
     }
 
     public List<UtilityProvider> getUtilityProviders(){
-        return new ArrayList<>();
+        List<UtilityProvider> list =  new ArrayList<>();
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                if(cells[i][j] == null) continue;
+                if(cells[i][j] instanceof UtilityProvider){
+                    list.add((UtilityProvider) cells[i][j]);
+                }
+            }
+        }
+        return list;
     }
 
     public boolean isInBounds(int row, int col){

@@ -1,8 +1,10 @@
 package com.objectville.simulation;
 
+import com.objectville.distribution.BFSUtilityDistributor;
 import com.objectville.resource.ResourceDistributor;
 import com.objectville.distribution.ServiceDistributor;
 import com.objectville.grid.Grid;
+import com.objectville.utility.UtilityProvider;
 import com.objectville.zone.Commercial;
 import com.objectville.zone.Housing;
 import com.objectville.zone.Industrial;
@@ -14,8 +16,13 @@ public class TickManager {
     public static void runTick(Grid grid, int tickNumber) {
         System.out.println("Tick " + tickNumber);
 
+        // 1. ServiceDistributor    2. BFS      3. ResourceDistributor
+
         ServiceDistributor.distribute(grid);
-        // BFS Kutay(inşallah)
+        BFSUtilityDistributor distributor = new BFSUtilityDistributor();
+        for(UtilityProvider provider : grid.getUtilityProviders()){
+            distributor.distribute(provider, grid);
+        }
         ResourceDistributor.distribute(grid);
         updateZones(grid);
         accumulateProduction(grid);
