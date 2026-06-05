@@ -22,7 +22,6 @@ public class ResourceDistributor {
 
         int total = 0;
 
-        // It used to look at what came to the house. It should've looked at what it produced. Small fix.
         for (Housing h : houses) total += h.getOutput();
 
         int receivers = industries.size() + commercials.size();
@@ -44,7 +43,6 @@ public class ResourceDistributor {
 
         int total = 0;
 
-        //Same problem
         for (Industrial i : industries) total += i.getOutput();
 
         int receivers = commercials.size();
@@ -61,7 +59,6 @@ public class ResourceDistributor {
         List<Housing> houses = grid.getHousingZones();
 
         int total = 0;
-        //same here
         for (Commercial c : commercials) total += c.getOutput();
 
         int receivers = houses.size();

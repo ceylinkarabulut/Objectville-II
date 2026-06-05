@@ -23,8 +23,4 @@ public abstract class UtilityProvider extends AbstractCell {
     public void resetTick() {
 
     }
-//    @Override
-//    public abstract String getLabel();
-
-
 }

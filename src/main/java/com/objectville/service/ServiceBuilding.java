@@ -36,7 +36,7 @@ public abstract class ServiceBuilding extends AbstractCell {
     /* Service buildings are connectable (utility BFS may pass through). */
     @Override
     public boolean isConnectable() {
-        return true;
+        return false;
     }
 
     @Override

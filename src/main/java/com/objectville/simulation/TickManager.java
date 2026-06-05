@@ -38,7 +38,7 @@ public class TickManager {
         for (Housing h : grid.getHousingZones()) {
             int prev = h.getPreviousLevel();
             h.computeOutput();
-            //again the same mistakes
+
             System.out.println("House at: (" + h.getPosition().getRow() + "," + h.getPosition().getCol() + ")generated " + h.getOutput() + " population ");
             printLevelChange("House:", h.getPosition(), prev, h.getLevel());
         }
